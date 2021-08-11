@@ -594,6 +594,29 @@ native query language (e.g. SQL).
  Optional is a wonderful feature to avoid nasty null checks and
  introduce null safety.
 
+# Chapter 5 - More Repository Types
+## Spring Data MongoDb Example
+Notes for this section were not taken in detail. I recommend you go and
+watch the matching LinkedIn Learning video if you will be working with
+Mongo.
+
+- When we use Mongo as a data source, `Entities` in our codebase will
+  need to be annotated with slightly different annotations that are
+  specific to storing data as Documents.
+- Spring data JPA will make sure that repositories like the
+  `CrudRepository` and the `PagingAndSortingRepository` repositories
+  work without us having to know too much about the specific data
+  source.
+- In addition to the db-independent repository, for mongo we can use the
+  `MongoRepository`. This repository extends
+  `PagingAndSortingRepository`, `QueryByExampleExecutor` and
+  `CrudRepository`.
+- When using Mongo as a data source the `@Query` annotation can be used
+  to issue JSON queries.
+
+
+
+
 # Other topics
 
 - `@Embeddable`: go to `Person.java` and `Student.java` to understand
