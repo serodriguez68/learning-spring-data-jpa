@@ -661,6 +661,46 @@ persistence.
 - Parent and child object lifecycles are coupled. JDBC follows the
   principles of Domain Driven Design.
 
+## Spring Data Reactive Repository Example
+Spring Boot 2 introduced the reactive stack to provided non-blocking IO.
+The traditional Spring Servlet Stack serves one request per thread and
+that thread gets blocked.
+
+Spring Data followed along by providing a non-blocking Reactive
+Repository that interacts with non-blocking data stores like Mongo,
+Cassandra, Redis or CouchBase. By using the reactive stack and the
+reactive repository, we can harness the power of reactive programming.
+
+- The Reactive Repository is based on the reactor pattern. Methods in
+  the repository MUST return either `Mono` or `Flux` types.
+- `Mono` is an async publisher of 0 or 1 results.
+- `Flux` is an async publisher of 0 or many results.
+- Methods that return `Mono` or `Flux` return immediately as they are
+  asynchronous. The code only waits when a subscriber subscribes to the
+  `Mono` or `Flux` because it needs a result.
+
+## Other Supported Data Sources in Spring Data
+
+Here we show a list of other Spring Data modules that allow you to
+interact with even more specialized data sources. All follow the
+familiar repository pattern and are compatible with the property
+expression auto-generated queries. However, they also provide access to
+the specific traits of the data source.
+- Spring Data Gemfire
+- Spring Data Key Value: Provide abstractions to interact with any in
+  memory key-value data store.
+- Spring Data Redis: Spring Data Key Value that also allows you tap into
+  the specific features of the Redis data store.
+- Spring Data LDAP: access object directory mapping data sources like
+  Microsoft's Active Directory or Linux's LDAP.
+- Spring Data for Apache Cassandra: for interaction with the Cassandra
+  DB.
+- Spring Data for Apache Solr: Solr is a full text search server based
+  on Lucene.
+- Spring Data for Apache Hadoop: this one is NOT based on the repository
+  pattern.
+- Community Modules: many other independently developed Spring Data
+  modules to support other data sources.
 
 
 # Other topics
