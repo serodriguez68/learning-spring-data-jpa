@@ -9,7 +9,7 @@ This repo contains some notes of taken from the LinkedIn Learning course
 - The Spring Data project aims to provide a familiar and consistent data
   access API while still retaining the special traits of the underlying
   data store.
-- Spring Data is an umbrella of multiple project.
+- Spring Data is an umbrella of multiple projects.
   - Some address the common features of all data access code.
     - `Spring Data Commons` is the core project for all other Spring
       Data projects. It is data source agnostic.
@@ -25,9 +25,9 @@ Basic operations:
 
 The repository pattern is the core pattern for all Spring Data projects.
 - The most basic abstraction is the `CRUDRepository`.
-- Every DB has a DB specific repository interface (e.g. `JpaRepository`,
-  `MongoRepository`) that extends from the Spring Data Commons
-  repositories.
+- Every DB has a DB specific repository interface (e.g. `JpaRepository`
+  (for relational DBs), `MongoRepository`) that extends from the Spring
+  Data Commons repositories.
 
 
 # Chapter 2 - Understanding JPA for Object-Relational Mapping
@@ -595,11 +595,11 @@ native query language (e.g. SQL).
  introduce null safety.
 
 # Chapter 5 - More Repository Types
-## Spring Data MongoDb Example
-Notes for this section were not taken in detail. I recommend you go and
-watch the matching LinkedIn Learning video if you will be working with
-Mongo.
+Notes for these sections were not taken in detail. I recommend you go
+and watch the matching LinkedIn Learning video if you will be working
+with any of these repository types.
 
+## Spring Data MongoDb Example
 - When we use Mongo as a data source, `Entities` in our codebase will
   need to be annotated with slightly different annotations that are
   specific to storing data as Documents.
@@ -614,6 +614,52 @@ Mongo.
 - When using Mongo as a data source the `@Query` annotation can be used
   to issue JSON queries.
 
+## Spring Data JDBC example
+
+Spring Data JDBC is a relatively new addition to the Spring Data
+umbrella project. The key points are summarized below. However, the
+LinkedIn video does not go into great detail about JDBC, so I recommend
+you look for alternative sources if you need to work with this.
+
+- Like JPA, JDBC repositories interact with **relational DBs**. However,
+  JDBC does not rely on JPA; in fact, the way JDBC models the data is
+  quite different.
+- Unlike JPA, JDBC does NOT have auto schema generation.
+
+###  Why use JPA?
+####  Pros of JPA
+- JPA has built-in features like lazy loading, caching and dirty
+    tracking. These features are also the source of its weaknesses.
+
+#### Cons of JPA
+- Lazy loading can cause expensive SQL statements or unexpected
+  exceptions.
+- Caching can cause problems because external DB updates do not get
+  saved in cache.
+- Dirty tracking makes it difficult to locate the point of operation
+persistence.
+
+### Why use JDBC
+#### Pros of  JDBC
+- JDBC Bypasses lazy loading, caching and dirty tracking in favour of a
+  simpler model.
+- SQL statements are issued when and only when you call a repo method
+  and return a fully loaded object (no lazy loading).
+
+#### Cons of JDBC
+- Many-to-one and many-to-many relationships are not supported at the
+  JDBC layer. The limitation is better explained through an example:
+  - Imagine *Dean Joe Bloggs* is the chair of both the *Human Sciences*
+    and the *Natural Sciences* department. In a JDBC data model we will
+    need to persist TWO *Dean Joe Bloggs*, one for each department. This
+    happens because many-to-one relationships are not supported.
+  - As of the recording of the LinkedIn video course, auto generated
+    expression queries were not possible in JDBC. Queries needed to be
+    manually implemented in SQL.
+
+#### Important traits of JDBC
+- Parent and child object lifecycles are coupled. JDBC follows the
+  principles of Domain Driven Design.
 
 
 
