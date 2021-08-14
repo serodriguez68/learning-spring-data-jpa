@@ -845,6 +845,88 @@ QueryDSL can still be used **within the persistence layer** (without
 leaking it to other layers) as a way to ease the implementation of
 repository methods.
 
+## Auditing
+
+Note: the course only covered this topic in very little detail. We
+suggest you find additional resources for this.
+
+Auditing in the Spring Data context means tracking when a record was
+created, updated and who did it. Spring Data comes with a feature to do
+this and has two ways to set it up.
+
+### Option 1: Annotations in the Entity
+
+You can decorate your own entity attributes with pre-defined annotations
+and Spring Data will do the rest.
+```java
+@CreatedDate
+@Column
+private ZonedDateTime createdAt;
+
+@LastModifiedDate
+@Column
+private ZonedDateTime updatedAt;
+
+@CreatedBy
+@Column
+private User createdBy;
+
+@LastModifiedBy
+@Column
+private User updatedBy;
+```
+
+
+### Option 2: Implement `Auditable` and extend `AbstractAuditable`
+
+This option allows us not to touch the entity attributes.
+`AbstractAuditable` provides the implementation for the attributes that
+store the audit data.
+
+```java
+public class Staff extends AbstractAuditable<User, Integer> implements Auditable<User, Integer> {
+    // ...
+}
+```
+
+### Getting access to the current `User`
+
+Regardless of the option you use, you need to wire up a way to get the
+`User` from the web session and inject it into the entity. Here is a
+code snippet to extract the user from the session. This is done by
+implementing `AuditorAware`.
+
+```java
+public class SpringSecurityAuditorAware implements AuditorAware<User> {
+    public User getCurrentAuditor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        return ((MyUserDetails) authentication.getPrincipal()).getUser();
+    }
+}
+```
+
+## Read-Only repository pattern
+
+Out of the box, Spring Data does not come with a read-only version of a
+repository. However, creating read-only repositories is a well followed
+convention in the community.
+
+Doing this is very easy and mostly relies on pure Java.
+- Go to
+  [ReadOnlyRepository](src/main/java/com/example/university/repo/ReadOnlyRepository.java)
+  to see how to set up an interface that will make any repo that extends
+  it read-only (as long as those repos themselves don't declare methods
+  that write).
+- Go to
+  [CourseQueryRepository](src/main/java/com/example/university/repo/CourseQueryRepository.java)
+  to see a repository that extends from the ReadOnlyRepository.
+
+By convention, the repositories that extend from a read-only repository
+are usually called `*QueryRepository`.
+
 # Other topics
 
 - `@Embeddable`: go to `Person.java` and `Student.java` to understand

@@ -14,6 +14,10 @@ import java.util.Optional;
  * Declaring a CourseQueryRepository which can only query the Database
  */
 public interface CourseQueryRepository extends ReadOnlyRepository<Course, Integer> {
+    /* All the methods that come from ReadOnlyRepository are also available here.
+    *  Spring Data implements them as they are based on query expressions.
+    */
+
     Optional<Course> findByName(String name);
 
     List<Course> findByDepartmentChairMemberLastName(String chair);
