@@ -929,6 +929,32 @@ are usually called `*QueryRepository`.
 
 # Other topics
 
+## Database migrations
+
+By default, Spring Data does not come with a pre-determined way for
+managing database migrations. By default, Spring's behaviour depends on
+the type of DB being used:
+- If the DB is an in-memory DB like H2, Spring activates the auto
+  generation of the schema following the entities' structure. This can
+  be controlled with the `spring.jpa.generate-ddl` or
+  `spring.jpa.hibernate.ddl-auto` properties (
+  [see documentation](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-jpa)).
+- If the DB is a "real" database, then by default Spring Data doesn't do
+  anything to auto-generate the schema, but also does not provide any
+  tooling for doing it.
+
+However, Spring Data is compatible by default with 2 popular database
+migration tools: Flyway and Liquidbase. The usage of those libraries is
+beyond the scope of this summary. However, here are some useful
+resources to learn more about them.
+- [Introduction to Flyway and Liquidbase with Spring Boot](https://www.youtube.com/watch?v=TMUMWfSS3yw)
+  - [Introduction to Flyway](https://www.youtube.com/watch?v=ovG1wgEqE10)
+  - [Introduction to Liquidbase](https://www.youtube.com/watch?v=SyrjSPC8EZ8)
+- [Generating Flyway migrations based on the Project Entities with IntelliJ IDEA](https://www.baeldung.com/database-migrations-with-flyway#generate-versioned-migrations-in-intellij-idea)
+- [Running Databse Migrations for Java Apps in Heroku](https://devcenter.heroku.com/articles/running-database-migrations-for-java-apps)
+
+## Miscellaneous
+
 - `@Embeddable`: go to `Person.java` and `Student.java` to understand
   what an embeddable class is.
 - `Course.java` has an example of a circular reference of a table to the
