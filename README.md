@@ -907,7 +907,8 @@ repository methods.
 ## Auditing
 
 Note: the course only covered this topic in very little detail. We
-suggest you find additional resources for this.
+suggest you find additional resources for this. [This YouTube video](https://www.youtube.com/watch?v=UTZJhILIpUs)
+explains this topic in a nice way.
 
 Auditing in the Spring Data context means tracking when a record was
 created, updated and who did it. Spring Data comes with a feature to do
